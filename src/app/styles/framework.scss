@@ -1,0 +1,28 @@
+/* a set of global styles which could be used across the application without including them into components */
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-ai-center {
+  align-items: center;
+}
+
+.flex-jc-center {
+  justify-content: center;
+}
+
+.d-block {
+  display: block;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.fs-italic {
+  font-style: italic;
+}
