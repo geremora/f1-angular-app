@@ -2,6 +2,18 @@
 
 An simple Angular using [Ergast F1 API](http://ergast.com/mrd) API and [ngrx](https://ngrx.io/)
 
+## Features to deliver
+- List of Drivers per season.
+- List of Races per season with final results.
+- Qualifying Results per race.
+- Driver Standings after a race.
+- In season 2021,
+  - How many cars "Finished".
+  - How many cars had an "Accident".
+  - How many cars finished +1 Lap.
+
+_All information shown should be since season 2018 to season 2022._
+
 ## Dependencies ##
 
 The main dependencies are `NodeJS >= 14` and `NPM >= 8`.  

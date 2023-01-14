@@ -26,8 +26,4 @@ export class AppComponent {
   public clearError(): void {
     this.f1ApiServiceFacade.clearError();
   }
-
-
-
-
 }
