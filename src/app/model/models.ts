@@ -38,3 +38,9 @@ export interface DriverStanding {
     points: string;
     Driver: Driver;
 }
+
+export interface Status {
+    statusId: string;
+    count: string;
+    status: string;
+}

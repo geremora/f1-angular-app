@@ -17,9 +17,9 @@ export class AppComponent {
   public readonly SEASONS_OPTIONS = SEASONS_OPTIONS;
 
     // Make it easier to work with the result in the UI
-    vm$ = combineLatest([this.f1ApiServiceFacade.drivers$, this.f1ApiServiceFacade.races$]).pipe(
-      map(([drivers, races]) => ({
-        drivers, races
+    vm$ = combineLatest([this.f1ApiServiceFacade.drivers$, this.f1ApiServiceFacade.races$, this.f1ApiServiceFacade.seasonStatus$]).pipe(
+      map(([drivers, races, seasonStatus]) => ({
+        drivers, races, seasonStatus
       }))
     );
   
@@ -32,7 +32,6 @@ export class AppComponent {
 
 
   public onSeasonSelected(seasonSelected: string): void {
-    this.f1ApiServiceFacade.emitRaceSelected("");
     this.f1ApiServiceFacade.emitSeasonSelected(seasonSelected);
   }
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Race } from 'src/app/model/models';
+import { DriverStanding, Race } from 'src/app/model/models';
 
 @Component({
     selector: 'f1-race-detail',
@@ -10,6 +10,9 @@ import { Race } from 'src/app/model/models';
 
     @Input()
     public race: Race | null = null;
+
+    @Input()
+    public driverStandings: DriverStanding[] | null = null;
 
     constructor() {}
 

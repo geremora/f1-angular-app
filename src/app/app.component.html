@@ -2,27 +2,42 @@
   <div class="card-header">
     Rx F1
   </div>
-<div  class='card-body' *ngIf="vm$ | async as vm">
-  <p>Select Season</p>
-  <select class="form-select" aria-label="Season list" (change)="onSeasonSelected($any($event.target).value)">
-    <option *ngFor="let season of SEASONS_OPTIONS" [value]="season" >{{season}}</option>
-  </select>
-
-  <p>Select Page Size</p>
-  <select class="form-select" aria-label="Page size list" (change)="onPageSizeSelected($any($event.target).value)">
-    <option *ngFor="let pageOption of PAGE_SIZE_OPTIONS" [value]="pageOption" >{{pageOption}}</option>
-  </select>
-
-  <h4>List of Drivers</h4>
-  <ul>
-    <li *ngFor="let driver of vm.drivers">{{driver.givenName}} {{driver.familyName}}</li>
-  </ul>
-
-  <h4>Races</h4>
-  <ul>
-    <li *ngFor="let race of vm.races">{{race.raceName}} - Winner: {{race.Results[0].Driver.givenName}} {{race.Results[0].Driver.familyName}} <button type="button" (click)="onShowMoreInfo(race.round)">more info</button></li>
-  </ul>
-</div>
-
-<f1-race-detail-container></f1-race-detail-container>
+  <div class='card-body' *ngIf="vm$ | async as vm">
+    <div class="row text-center d-flex justify-content-center mb-4">
+      <p>Select Season</p>
+      <select class="form-select w-25 p-3 mb-2" aria-label="Season list"
+        (change)="onSeasonSelected($any($event.target).value)">
+        <option *ngFor="let season of SEASONS_OPTIONS" [value]="season">{{season}}</option>
+      </select>
+      <p>Select Page Size</p>
+      <select class="form-select w-25 p-3" aria-label="Page size list"
+        (change)="onPageSizeSelected($any($event.target).value)">
+        <option *ngFor="let pageOption of PAGE_SIZE_OPTIONS" [value]="pageOption">{{pageOption}}</option>
+      </select>
+    </div>
+    <hr class="mt-2 mb-3" />
+    <div class="row">
+      <div class="col-md-4">
+        <h4>List of Drivers</h4>
+        <ul>
+          <li *ngFor="let driver of vm.drivers">{{driver.givenName}} {{driver.familyName}}</li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h4>Races</h4>
+        <ul>
+          <li *ngFor="let race of vm.races">{{race.raceName}} - Winner: {{race.Results[0].Driver.givenName}}
+            {{race.Results[0].Driver.familyName}} <button type="button" (click)="onShowMoreInfo(race.round)">more
+              info</button></li>
+        </ul>
+      </div>
+      <div class="col-md-4" *ngIf="vm.seasonStatus">
+        <h4>Status</h4>
+        <ul>
+          <li *ngFor="let status of vm.seasonStatus">{{status.status}} - Count: {{status.count}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <f1-race-detail-container></f1-race-detail-container>
 </div>
