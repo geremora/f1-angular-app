@@ -1,22 +1,16 @@
 <div class="card">
   <div class="card-header">
-    Rx F1 - HeroDevs
+    Rx F1
   </div>
 <div  class='card-body' *ngIf="vm$ | async as vm">
   <p>Select Season</p>
   <select class="form-select" aria-label="Season list" (change)="onSeasonSelected($any($event.target).value)">
-    <option value="2018">2018</option>
-    <option value="2019">2019</option>
-    <option value="2020">2020</option>
-    <option value="2021">2021</option>
-    <option value="2022">2022</option>
+    <option *ngFor="let season of SEASONS_OPTIONS" [value]="season" >{{season}}</option>
   </select>
 
   <p>Select Page Size</p>
   <select class="form-select" aria-label="Page size list" (change)="onPageSizeSelected($any($event.target).value)">
-    <option value="10">10</option>
-    <option value="15">15</option>
-    <option value="20">20</option>
+    <option *ngFor="let pageOption of PAGE_SIZE_OPTIONS" [value]="pageOption" >{{pageOption}}</option>
   </select>
 
   <h4>List of Drivers</h4>
@@ -29,4 +23,6 @@
     <li *ngFor="let race of vm.races">{{race.raceName}} - Winner: {{race.Results[0].Driver.givenName}} {{race.Results[0].Driver.familyName}} <button type="button" (click)="onShowMoreInfo(race.round)">more info</button></li>
   </ul>
 </div>
+
+<f1-race-detail-container></f1-race-detail-container>
 </div>

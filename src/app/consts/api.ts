@@ -1,0 +1,1 @@
+export const API_ROOT = "http://ergast.com/api/f1"

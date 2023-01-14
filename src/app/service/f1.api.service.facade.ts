@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, throwError, combineLatest, filter } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, of, switchMap, throwError, combineLatest, filter, mergeMap, debounceTime, withLatestFrom, forkJoin, shareReplay, tap } from "rxjs";
+import { Driver, Race } from "../model/models";
 import { F1ApiHttpService } from "./http/f1-api.http.service";
 @Injectable({ providedIn: "root" })
 export class F1ApiServiceFacade {
@@ -13,61 +14,55 @@ export class F1ApiServiceFacade {
     private raceSelectedSubject = new BehaviorSubject<string>("");
     raceSelected$ = this.raceSelectedSubject.asObservable();
 
+
     public drivers$ = combineLatest([
-        this.seasonSelected$,
-        this.pageSizeSelected$
+        this.seasonSelected$.pipe(filter(seasonSelected => seasonSelected.length > 0)),
+        this.pageSizeSelected$.pipe(filter(pageSizeSelected => pageSizeSelected.length > 0)),
       ]).pipe(
-        filter(([seasonSelected, pageSizeSelected]) => !!seasonSelected || !!pageSizeSelected),
         switchMap( ([seasonSelected, pageSizeSelected]) => 
             this.f1ApiHttpService.getAllDrivers(seasonSelected, pageSizeSelected).pipe(
                 map(drivers => {
                     return drivers;
                 })
             )
-        ),
-        catchError(error => {
-            // handle error here
-            return of([]);
-        })
-    );
+        )
+    ); 
 
-    public races$ = combineLatest([
-        this.seasonSelected$,
-        this.pageSizeSelected$
+     public races$ = combineLatest([
+        this.seasonSelected$.pipe(filter(seasonSelected => seasonSelected.length > 0)),
+        this.pageSizeSelected$.pipe(filter(pageSizeSelected => pageSizeSelected.length > 0)),
       ]).pipe(
-        filter(([seasonSelected, pageSizeSelected]) => !!seasonSelected || !!pageSizeSelected),
         switchMap( ([seasonSelected, pageSizeSelected]) => 
             this.f1ApiHttpService.getAllRacesResults(seasonSelected, pageSizeSelected).pipe(
                 map(races => {
                     return races;
-                })
+                }),
+                shareReplay(1),
             )
-        ),
-        catchError(error => {
-            // handle error here
-            return of([]);
-        })
-    );
+        )
+    ); 
 
     public race$ = combineLatest([
-        this.seasonSelected$,
-        this.pageSizeSelected$,
-        this.raceSelected$
-      ]).pipe(
-        switchMap( ([seasonSelected, pageSizeSelected, raceSelected]) => 
-            this.f1ApiHttpService.getRaceResult(seasonSelected, raceSelected,pageSizeSelected).pipe(
-                map(races => {
-                    return races;
-                })
+        this.seasonSelected$.pipe(filter(seasonSelected => seasonSelected.length > 0)),
+        this.pageSizeSelected$.pipe(filter(pageSizeSelected => pageSizeSelected.length > 0)),
+        this.raceSelected$.pipe(filter(raceSelected => raceSelected.length > 0))
+    ]).pipe(
+        mergeMap(([seasonSelected, pageSizeSelected, raceSelected]) => {
+            const raceResult = this.f1ApiHttpService.getRaceResult(seasonSelected, raceSelected, pageSizeSelected);
+            const raceQualifying = this.f1ApiHttpService.getQualifyingResult(seasonSelected, raceSelected, pageSizeSelected);
+            return forkJoin([raceResult, raceQualifying]).pipe(
+                map(([raceResult, raceQualifying]) => {
+                    return {
+                        ...raceResult,
+                        QualifyingResults: raceQualifying.QualifyingResults
+                    }
+                }),
+                shareReplay(1),
+                tap(console.log)
             )
-        ),
-        catchError(error => {
-            // handle error here
-            console.log(error)
-            return of([]);
-        })
+        }
+        )
     );
-    
 
     constructor(private f1ApiHttpService: F1ApiHttpService) { }
 
@@ -80,7 +75,7 @@ export class F1ApiServiceFacade {
     }
 
     public emitRaceSelected(raceRound: string): void {
-        console.log("emitRaceSelected", raceRound)
         this.raceSelectedSubject.next(raceRound);
     }
+
 }

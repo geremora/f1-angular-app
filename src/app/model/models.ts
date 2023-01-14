@@ -24,4 +24,17 @@ export interface Race {
             Driver: Driver;
         }
     ]
+    QualifyingResults: [
+        {
+            number: string;
+            position: string;
+            Driver: Driver;
+        }
+    ]
+}
+
+export interface DriverStanding {
+    position: string;
+    points: string;
+    Driver: Driver;
 }

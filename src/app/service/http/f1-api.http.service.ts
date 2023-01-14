@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, throwError } from "rxjs";
+import { API_ROOT } from "@app/consts/api";
+import { catchError, map, Observable, throwError } from "rxjs";
 import { Driver, Race } from "src/app/model/models";
 
 export interface DriversApiResponse {
@@ -19,6 +20,20 @@ export interface RaceResultsApiResponse {
     }
 }
 
+export interface DriverStandingsApiResponse {
+    MRData: {
+        StandingsTable: {
+            StandingsLists: {
+                DriverStandings:{
+                    position: string;
+                    points: string;
+                    Driver: Driver;
+                }
+            }
+        }
+    }
+}
+
 @Injectable({ providedIn: "root" })
 export class F1ApiHttpService {
 
@@ -29,7 +44,7 @@ export class F1ApiHttpService {
     constructor(private http: HttpClient) {}
 
     public getAllDrivers(season: string = "2018", limit: string = "10"): Observable<Driver[]> {
-        const url = `http://ergast.com/api/f1/${season}/drivers.json?limit=${limit}`
+        const url = `${API_ROOT}/${season}/drivers.json?limit=${limit}`
 
         return this.http.get<DriversApiResponse>(url).pipe(
             map(data => {
@@ -41,7 +56,7 @@ export class F1ApiHttpService {
     }
 
     public getAllRacesResults(season: string = "2018", limit: string = "10"): Observable<Race[]> {
-        const url = `http://ergast.com/api/f1/${season}/results/1.json?limit=${limit}`
+         const url = `${API_ROOT}/${season}/results/1.json?limit=${limit}`
         
         return this.http.get<RaceResultsApiResponse>(url).pipe(
             map(data => {
@@ -49,24 +64,49 @@ export class F1ApiHttpService {
                 return races;
             }),
             catchError(this.handleError)
-        )
+        ) 
     }
 
-    public getRaceResult(season: string = "2018", raceRound: string, limit: string = "10"): Observable<Race[]> {
-        console.log("getRaceResult")
-        const url = `http://ergast.com/api/f1/${season}/${raceRound}/results.json?limit=${limit}`
+    public getRaceResult(season: string = "2018", raceRound: string, limit: string = "10"): Observable<Race> {
+       
+        const url = `${API_ROOT}/${season}/${raceRound}/results.json?limit=${limit}`
 
-        console.log("getRaceResult")
-        
         return this.http.get<RaceResultsApiResponse>(url).pipe(
             map(data => {
-                console.log(data);
-                const races: Race[] = data.MRData.RaceTable.Races;
-                return races;
+                const race: Race = data.MRData.RaceTable.Races[0];
+                return race;
             }),
             catchError(this.handleError)
         )
     }
+
+    public getQualifyingResult(season: string = "2018", raceRound: string, limit: string = "10"): Observable<Race> {
+       
+        const url = `${API_ROOT}/${season}/${raceRound}/qualifying.json?limit=${limit}`
+
+        return this.http.get<RaceResultsApiResponse>(url).pipe(
+            map(data => {
+                const race: Race = data.MRData.RaceTable.Races[0];
+                return race;
+            }),
+            catchError(this.handleError)
+        )
+    }
+
+   /*  public getDriverStandings(season: string = "2018", raceRound: string, limit: string = "10"): Observable<Race> {
+       
+        const url = `${API_ROOT}/${season}/${raceRound}/driverStandings.json?limit=${limit}`
+        
+        return this.http.get<DriverStandingsApiResponse>(url).pipe(
+            map(data => {
+                const race: Race = data.MRData.D.Races[0];
+                return race;
+            }),
+            catchError(this.handleError)
+        )
+    } */
+
+    
 
     private handleError(err: HttpErrorResponse): Observable<never> {
         let errorMessage = '';
