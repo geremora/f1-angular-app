@@ -3,9 +3,14 @@
     Rx F1 Angular
   </div>
   <div class='card-body'>
+    <div *ngIf="error$ | async as error" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Error! </strong> {{error}}
+      <button type="button" class="close" (click)="clearError()" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <app-f1-selection-panel-container></app-f1-selection-panel-container>
-    <hr class="mt-2 mb-3" />
     <app-f1-season-detail-container></app-f1-season-detail-container>
+    <app-f1-race-detail-container></app-f1-race-detail-container>
   </div>
-  <app-f1-race-detail-container></app-f1-race-detail-container>
 </div>

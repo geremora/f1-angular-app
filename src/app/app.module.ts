@@ -11,6 +11,7 @@ import { SelectionPanelComponentContainer } from './components/selection-panel/s
 import { SelectionPanelComponent } from './components/selection-panel/selection-panel.component';
 import { SeasonDetailComponentContainer } from './components/season-detail/season.detail.container';
 import { SeasonDetailComponent } from './components/season-detail/season-detail.component';
+import { PipeModule } from './pipes/pipe.module';
 
 
 const createTranslateLoader = (http: HttpClient): TranslateHttpLoader => {
@@ -28,6 +29,7 @@ const createTranslateLoader = (http: HttpClient): TranslateHttpLoader => {
     SeasonDetailComponent
   ],
   imports: [
+    PipeModule,
     BrowserModule,
     AppRoutingModule,
     TranslateModule,

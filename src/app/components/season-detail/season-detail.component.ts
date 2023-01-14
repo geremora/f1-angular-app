@@ -10,6 +10,9 @@ import { Driver, Race, Status } from "src/app/model/models";
   export class SeasonDetailComponent {
 
     @Input()
+    public seasonSelected: string | null = null;
+    
+    @Input()
     public drivers: Driver[] | null = null;
 
     @Input()

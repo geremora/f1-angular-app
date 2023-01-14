@@ -1,22 +1,28 @@
-<div class="row">
-    <div class="col-md-4" *ngIf="drivers">
-      <h4>List of Drivers</h4>
-      <ul>
-        <li *ngFor="let driver of drivers">{{driver.givenName}} {{driver.familyName}}</li>
-      </ul>
+<div class="card">
+    <div class="card-header text-center mb-4">
+        <strong>Season {{seasonSelected}}</strong><br>
     </div>
-    <div class="col-md-4" *ngIf="races">
-      <h4>Races</h4>
-      <ul>
-        <li *ngFor="let race of races">{{race.raceName}} - Winner: {{race.Results[0].Driver.givenName}}
-          {{race.Results[0].Driver.familyName}} <button type="button" (click)="onShowMoreInfo(race.round)">more
-            info</button></li>
-      </ul>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4" *ngIf="drivers">
+                <h4>Drivers</h4>
+                <ul>
+                    <li *ngFor="let driver of drivers">{{driver | driverNames}}</li>
+                </ul>
+            </div>
+            <div class="col-md-4" *ngIf="races">
+                <h4>Races</h4>
+                <ul>
+                    <li *ngFor="let race of races">{{race.raceName}} - Winner: {{race.Results[0].Driver | driverNames}}
+                        <a class="link-info" (click)="onShowMoreInfo(race.round)">Click more info</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4" *ngIf="seasonStatus">
+                <h4>Status</h4>
+                <ul>
+                    <li *ngFor="let status of seasonStatus">{{status.status}} - Count: {{status.count}}</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4" *ngIf="seasonStatus">
-      <h4>Status</h4>
-      <ul>
-        <li *ngFor="let status of seasonStatus">{{status.status}} - Count: {{status.count}}</li>
-      </ul>
-    </div>
-  </div>
+</div>

@@ -11,14 +11,14 @@
           <h4>Race Results</h4>
           <div class="row" *ngFor="let result of race.Results" >
             <div class="col-md-6">Position: #{{result.position}}</div>
-            <div class="col-md-6">{{result.Driver.givenName}} {{result.Driver.familyName}}</div>
+            <div class="col-md-6">{{result.Driver | driverNames}}</div>
           </div>
         </div>
         <div class="col-md-4">
           <h4>Qualifying Results</h4>
           <div class="row" *ngFor="let result of race.QualifyingResults" >
             <div class="col-md-6">Position: #{{result.position}}</div>
-            <div class="col-md-6">{{result.Driver.givenName}} {{result.Driver.familyName}}</div>
+            <div class="col-md-6">{{result.Driver | driverNames}}</div>
           </div>
         </div>
         <div class="col-md-4" *ngIf="driverStandings">
@@ -26,7 +26,7 @@
           <div class="row" *ngFor="let driverStanding of driverStandings" >
             <div class="col-md-4">Position: #{{driverStanding.position}}</div>
             <div class="col-md-4">Points: {{driverStanding.points}}</div>
-            <div class="col-md-4">{{driverStanding.Driver.givenName}} {{driverStanding.Driver.familyName}}</div>
+            <div class="col-md-4">{{driverStanding.Driver | driverNames}}</div>
           </div>
         </div>
       </div>

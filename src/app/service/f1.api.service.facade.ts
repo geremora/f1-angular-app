@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, map, of, switchMap, combineLatest, filter, forkJoin, shareReplay, tap } from "rxjs";
+import { SEASONS_WITH_STATUS, STATUSES_TO_SHOW } from "@app/consts/seasons";
+import { BehaviorSubject, map, of, switchMap, combineLatest, filter, forkJoin, shareReplay, tap, catchError } from "rxjs";
 import { F1ApiHttpService } from "./http/f1-api.http.service";
 @Injectable({ providedIn: "root" })
 export class F1ApiServiceFacade {
@@ -13,6 +14,9 @@ export class F1ApiServiceFacade {
     private raceSelectedSubject = new BehaviorSubject<string>("");
     raceSelected$ = this.raceSelectedSubject.asObservable();
 
+    private errorSubject = new BehaviorSubject<string>("");
+    error$ = this.errorSubject.asObservable();
+
 
     public drivers$ = combineLatest([
         this.seasonSelected$.pipe(filter(seasonSelected => seasonSelected.length > 0)),
@@ -23,8 +27,13 @@ export class F1ApiServiceFacade {
                 map(drivers => {
                     return drivers;
                 }),
+                catchError((error) => {
+                    this.errorSubject.next("Error getting drivers");
+                    return of(null);
+                }),
                 shareReplay(1),
             )
+           
         )
     );
 
@@ -36,6 +45,10 @@ export class F1ApiServiceFacade {
             this.f1ApiHttpService.getAllRacesResults(seasonSelected, pageSizeSelected).pipe(
                 map(races => {
                     return races;
+                }),
+                catchError(error => {
+                    this.errorSubject.next("Error getting races");
+                    return of(null);
                 }),
                 shareReplay(1),
             )
@@ -58,8 +71,11 @@ export class F1ApiServiceFacade {
                             QualifyingResults: raceQualifying.QualifyingResults
                         }
                     }),
-                    shareReplay(1),
-                    tap(console.log)
+                    catchError(error => {
+                        this.errorSubject.next("Error getting race");
+                        return of(null);
+                    }),
+                    shareReplay(1)
                 )
             }else{
                 return of(null)
@@ -79,6 +95,10 @@ export class F1ApiServiceFacade {
                 map(driverStandings => {
                     return driverStandings;
                 }),
+                catchError(error => {
+                    this.errorSubject.next("Error getting driver standings");
+                    return of(null);
+                }),
                 shareReplay(1),
             )
         )
@@ -88,10 +108,15 @@ export class F1ApiServiceFacade {
         this.seasonSelected$.pipe(filter(seasonSelected => seasonSelected.length > 0)),
         this.pageSizeSelected$.pipe(filter(pageSizeSelected => pageSizeSelected.length > 0)),
     ]).pipe(
-        switchMap(([seasonSelected, pageSizeSelected]) => seasonSelected === "2021"?
+        // we want the status just for certain seasons
+        switchMap(([seasonSelected, pageSizeSelected]) => SEASONS_WITH_STATUS.includes(seasonSelected) ?
             this.f1ApiHttpService.getStatusSeason(seasonSelected, pageSizeSelected).pipe(
                 map(statuses => {
-                    return statuses.filter(status => status.status === "Finished" || status.status === "Accident" || status.status === "+1 Lap" )
+                    return statuses.filter(status => STATUSES_TO_SHOW.includes(status.status))
+                }),
+                catchError(error => {
+                    this.errorSubject.next("Error getting season status");
+                    return of(null);
                 }),
                 shareReplay(1),
             ): of(null)
@@ -110,6 +135,10 @@ export class F1ApiServiceFacade {
 
     public emitRaceSelected(raceRound: string): void {
         this.raceSelectedSubject.next(raceRound);
+    }
+
+    public clearError(): void {
+        this.errorSubject.next("")
     }
 
 }
