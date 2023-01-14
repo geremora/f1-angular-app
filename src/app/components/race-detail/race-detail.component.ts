@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DriverStanding, Race } from 'src/app/model/models';
 
 @Component({
-    selector: 'f1-race-detail',
+    selector: 'app-f1-race-detail',
     templateUrl: './race-detail.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
   })

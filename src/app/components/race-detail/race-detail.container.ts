@@ -4,9 +4,9 @@ import { DriverStanding, Race } from "src/app/model/models";
 import { F1ApiServiceFacade } from "src/app/service/f1.api.service.facade";
 
 @Component({
-    selector: "f1-race-detail-container",
+    selector: "app-f1-race-detail-container",
     template: `
-    <f1-race-detail [race]="race$ | async" [driverStandings]="driverStandings$ | async"></f1-race-detail>
+    <app-f1-race-detail [race]="race$ | async" [driverStandings]="driverStandings$ | async"></app-f1-race-detail>
     `
 })
 export class RaceDetailContainer {

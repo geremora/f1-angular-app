@@ -7,8 +7,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RaceDetailComponent } from './components/race-detail/race-detail.component';
 import { RaceDetailContainer } from './components/race-detail/race-detail.container';
-
-
+import { SelectionPanelComponentContainer } from './components/selection-panel/selection-panel.container';
+import { SelectionPanelComponent } from './components/selection-panel/selection-panel.component';
+import { SeasonDetailComponentContainer } from './components/season-detail/season.detail.container';
+import { SeasonDetailComponent } from './components/season-detail/season-detail.component';
 
 
 const createTranslateLoader = (http: HttpClient): TranslateHttpLoader => {
@@ -19,7 +21,11 @@ const createTranslateLoader = (http: HttpClient): TranslateHttpLoader => {
   declarations: [
     AppComponent,
     RaceDetailComponent,
-    RaceDetailContainer
+    RaceDetailContainer,
+    SelectionPanelComponentContainer,
+    SelectionPanelComponent,
+    SeasonDetailComponentContainer,
+    SeasonDetailComponent
   ],
   imports: [
     BrowserModule,

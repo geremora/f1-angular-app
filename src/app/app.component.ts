@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { combineLatest, map } from 'rxjs';
-import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from './consts/page-sizes';
-import { DEFAULT_SEASON, SEASONS_OPTIONS } from './consts/seasons';
+import { DEFAULT_PAGE_SIZE } from './consts/page-sizes';
+import { DEFAULT_SEASON } from './consts/seasons';
 import { F1ApiServiceFacade } from './service/f1.api.service.facade';
 
 
@@ -13,34 +12,15 @@ import { F1ApiServiceFacade } from './service/f1.api.service.facade';
 })
 export class AppComponent {
 
-  public readonly PAGE_SIZE_OPTIONS = PAGE_SIZE_OPTIONS;
-  public readonly SEASONS_OPTIONS = SEASONS_OPTIONS;
 
-    vm$ = combineLatest([this.f1ApiServiceFacade.drivers$, this.f1ApiServiceFacade.races$, this.f1ApiServiceFacade.seasonStatus$]).pipe(
-      map(([drivers, races, seasonStatus]) => ({
-        drivers, races, seasonStatus
-      }))
-    );
-  
-
-  constructor(private f1ApiServiceFacade: F1ApiServiceFacade){
+  constructor(private f1ApiServiceFacade: F1ApiServiceFacade) {
     // set default options
     this.f1ApiServiceFacade.emitSeasonSelected(DEFAULT_SEASON);
     this.f1ApiServiceFacade.emitPageSizeSelected(DEFAULT_PAGE_SIZE);
 
   }
 
-  public onSeasonSelected(seasonSelected: string): void {
-    this.f1ApiServiceFacade.emitSeasonSelected(seasonSelected);
-  }
 
-  public onPageSizeSelected(pageSizeSelected: string): void {
-    this.f1ApiServiceFacade.emitPageSizeSelected(pageSizeSelected);
-  }
 
-  public onShowMoreInfo(raceRound: string): void {
-    this.f1ApiServiceFacade.emitRaceSelected(raceRound);
-  }
 
-  
 }
