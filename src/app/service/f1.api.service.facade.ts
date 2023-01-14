@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, throwError, combineLatest, filter, mergeMap, debounceTime, withLatestFrom, forkJoin, shareReplay, tap } from "rxjs";
-import { Driver, Race } from "../model/models";
+import { BehaviorSubject, map, of, switchMap, combineLatest, filter, forkJoin, shareReplay, tap } from "rxjs";
 import { F1ApiHttpService } from "./http/f1-api.http.service";
 @Injectable({ providedIn: "root" })
 export class F1ApiServiceFacade {

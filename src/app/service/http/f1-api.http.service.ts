@@ -48,7 +48,7 @@ export class F1ApiHttpService {
       */
     constructor(private http: HttpClient) { }
 
-    public getAllDrivers(season: string = "2018", limit: string = DEFAULT_PAGE_SIZE): Observable<Driver[]> {
+    public getAllDrivers(season = "2018", limit: string = DEFAULT_PAGE_SIZE): Observable<Driver[]> {
         const url = `${API_ROOT}/${season}/drivers.json?limit=${limit}`
 
         return this.http.get<DriversApiResponse>(url).pipe(

@@ -14,6 +14,4 @@ import { DriverStanding, Race } from 'src/app/model/models';
     @Input()
     public driverStandings: DriverStanding[] | null = null;
 
-    constructor() {}
-
   }
