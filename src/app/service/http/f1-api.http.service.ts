@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { API_ROOT } from "@app/consts/api";
 import { DEFAULT_PAGE_SIZE } from "@app/consts/page-sizes";
+import { DEFAULT_SEASON } from "@app/consts/seasons";
 import { catchError, map, Observable, throwError } from "rxjs";
 import { Driver, DriverStanding, Race, Status } from "src/app/model/models";
 
@@ -59,7 +60,7 @@ export class F1ApiHttpService {
         )
     }
 
-    public getAllRacesResults(season: string = "2018", limit: string = DEFAULT_PAGE_SIZE): Observable<Race[]> {
+    public getAllRacesResults(season: string = DEFAULT_SEASON, limit: string = DEFAULT_PAGE_SIZE): Observable<Race[]> {
         const url = `${API_ROOT}/${season}/results/1.json?limit=${limit}`
 
         return this.http.get<RaceResultsApiResponse>(url).pipe(
@@ -71,7 +72,7 @@ export class F1ApiHttpService {
         )
     }
 
-    public getRaceResult(season: string = "2018", raceRound: string, limit: string = DEFAULT_PAGE_SIZE): Observable<Race> {
+    public getRaceResult(season: string = DEFAULT_SEASON, raceRound: string, limit: string = DEFAULT_PAGE_SIZE): Observable<Race> {
 
         const url = `${API_ROOT}/${season}/${raceRound}/results.json?limit=${limit}`
 
@@ -84,7 +85,7 @@ export class F1ApiHttpService {
         )
     }
 
-    public getQualifyingResult(season: string = "2018", raceRound: string, limit: string = DEFAULT_PAGE_SIZE): Observable<Race> {
+    public getQualifyingResult(season: string = DEFAULT_SEASON, raceRound: string, limit: string = DEFAULT_PAGE_SIZE): Observable<Race> {
 
         const url = `${API_ROOT}/${season}/${raceRound}/qualifying.json?limit=${limit}`
 
@@ -97,7 +98,7 @@ export class F1ApiHttpService {
         )
     }
 
-    public getDriverStandings(season: string = "2018", raceRound: string, limit: string = DEFAULT_PAGE_SIZE): Observable<DriverStanding[]> {
+    public getDriverStandings(season: string = DEFAULT_SEASON, raceRound: string, limit: string = DEFAULT_PAGE_SIZE): Observable<DriverStanding[]> {
 
         const url = `${API_ROOT}/${season}/${raceRound}/driverStandings.json?limit=${limit}`
 
@@ -110,7 +111,7 @@ export class F1ApiHttpService {
         )
     }
 
-    public getStatusSeason(season: string = "2018", limit: string = DEFAULT_PAGE_SIZE): Observable<Status[]> {
+    public getStatusSeason(season: string = DEFAULT_SEASON, limit: string = DEFAULT_PAGE_SIZE): Observable<Status[]> {
         const url = `${API_ROOT}/${season}/status.json?limit=${limit}`
 
         return this.http.get<SeasonStatusApiResponse>(url).pipe(
