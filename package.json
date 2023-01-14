@@ -1,14 +1,14 @@
 {
-  "name": "@geremora/anguler-f1-herodevs",
-  "description": "An empty Angular project with a minimal set of required dependencies",
+  "name": "@geremora/f1-angular-app",
+  "description": "An simple Angular using [Ergast F1 API](http://ergast.com/mrd) API and [ngrx](https://ngrx.io/)",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dskuratovich/angular-starter.git"
+    "url": "https://github.com/geremora/f1-angular-app.git"
   },
   "author": {
-    "name": "Dmitry Skuratovich",
-    "email": "me@skuratovich.tech",
+    "name": "Gerardo Mora",
+    "email": "geremora@gmail.com",
     "url": "https://github.com/geremora"
   },
   "license": "MIT",

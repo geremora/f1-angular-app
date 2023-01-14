@@ -1,4 +1,4 @@
-# Angular Starter #
+# F1 Rx Angular #
 
 An simple Angular using [Ergast F1 API](http://ergast.com/mrd) API and [ngrx](https://ngrx.io/)
 
