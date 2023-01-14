@@ -17,7 +17,6 @@ _All information shown should be since season 2018 to season 2022._
 ## Dependencies ##
 
 The main dependencies are `NodeJS >= 14` and `NPM >= 8`.  
-It doesn't mean that other version are not going to work but the only followings are tested with such starter.
 
 ## Scripts ##
 
@@ -44,6 +43,15 @@ npm run test
 
 To test the app. Tests have to be in `.spec.ts` files.  
 By default, it runs the tests in browser `headful` mode
+
+
+### TODO ###
+
+- Add unit tests
+- Improve error handling
+- Add ngrx effects
+- Improve css and html layout
+- Add i18n strings
 
 
 
