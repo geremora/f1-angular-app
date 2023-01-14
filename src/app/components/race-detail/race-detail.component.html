@@ -7,7 +7,7 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <h4>Race Results</h4>
           <div class="row" *ngFor="let result of race.Results" >
             <div class="col-md-6">Position: #{{result.position}}</div>
@@ -21,12 +21,12 @@
             <div class="col-md-6">{{result.Driver | driverNames}}</div>
           </div>
         </div>
-        <div class="col-md-4" *ngIf="driverStandings">
+        <div class="col-md-5" *ngIf="driverStandings">
           <h4>Driver Standings</h4>
           <div class="row" *ngFor="let driverStanding of driverStandings" >
-            <div class="col-md-4">Position: #{{driverStanding.position}}</div>
-            <div class="col-md-4">Points: {{driverStanding.points}}</div>
-            <div class="col-md-4">{{driverStanding.Driver | driverNames}}</div>
+            <div class="col-md-3">Position: #{{driverStanding.position}}</div>
+            <div class="col-md-3">Points: {{driverStanding.points}}</div>
+            <div class="col-md-6">{{driverStanding.Driver | driverNames}}</div>
           </div>
         </div>
       </div>
